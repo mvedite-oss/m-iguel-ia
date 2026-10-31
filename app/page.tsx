@@ -78,9 +78,10 @@ export default function Home() {
     setInput("");
   }
 
-  async function sendMessage(event?: FormEvent<HTMLFormElement>, suppliedText?: string) {
+  async function sendMessage(event?: FormEvent<HTMLFormElement>, suppliedText?: string, suppliedMode?: Mode) {
     event?.preventDefault();
     const prompt = (suppliedText ?? input).trim();
+    const requestMode = suppliedMode ?? mode;
     if (!prompt || busy) return;
 
     const threadId = activeId || ("task-" + Date.now() + "-" + Math.floor(Math.random() * 100000));
@@ -107,7 +108,7 @@ export default function Home() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: nextMessages, mode })
+        body: JSON.stringify({ messages: nextMessages, mode: requestMode })
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Não foi possível obter uma resposta.");
@@ -213,7 +214,7 @@ export default function Home() {
                   <button
                     className="suggestion-card"
                     key={item.title}
-                    onClick={() => { setMode(item.mode); void sendMessage(undefined, item.prompt); }}
+                    onClick={() => { setMode(item.mode); void sendMessage(undefined, item.prompt, item.mode); }}
                     type="button"
                   >
                     <span className="suggestion-icon">{item.icon}</span>
