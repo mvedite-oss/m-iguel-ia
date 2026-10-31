@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MV Assistant",
-  description: "Seu assistente de IA para ideias, estudos e programação."
+  title: "MV Code — Assistente de programação",
+  description: "Seu espaço para criar projetos, escrever código e resolver problemas com IA."
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
